@@ -4,12 +4,7 @@ class Api < Grape::API
   resource :status do
     desc 'Return statuses of domains.'
     get do
-      all = Domain.all
-      all.each do |el| 
-        # UpdateDomainWorker.perform_async(el.address)
-        # UpdateDomainWorker.perform_in(20.minutes, el.address)
-      end
-      all
+      Domain.all
     end
   end
 
@@ -26,7 +21,7 @@ class Api < Grape::API
         desc: 'New domain'
       })
       UpdateDomainWorker.perform_async(address)
-      UpdateDomainWorker.perform_in(20.minutes, el.address)
+      UpdateDomainWorker.perform_in(20.minutes, address)
     end
   end
 end
